@@ -17,6 +17,10 @@ module OFX
       def request?
         !response?
       end
+
+      def ofx_type
+        :document
+      end
     end
   end
 end

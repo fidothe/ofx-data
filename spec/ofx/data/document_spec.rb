@@ -13,4 +13,8 @@ RSpec.describe OFX::Data::Document do
   it "has a collection of message sets" do
     expect(subject.message_sets).to eq([])
   end
+
+  it "reports that's its an OFX document object" do
+    expect(subject.ofx_type).to eq(:document)
+  end
 end

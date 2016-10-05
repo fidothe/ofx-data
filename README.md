@@ -1,10 +1,20 @@
 # Ofx::Data
 
-The Open Financial Exchange standard is a standard for transferring information between financial institutions, and between financial institutions and their users. It specifies a messaging protocal and uses XML-based documents to transfer data
-around. This gem implements an object model and serializer for those documents,
-leaving the Request / Response HTTP-based parts of the specification well alone.
+The Open Financial Exchange standard is a standard for transferring information
+between financial institutions, and between financial institutions and their
+users. It specifies a messaging protocal and uses XML-based documents to
+transfer data around. This gem implements an object model and serializer for
+those documents, leaving the Request / Response HTTP-based parts of the
+specification well alone.
 
-At the moment it's targeting OFX 2.0.3. I'll look at later (and earlier versions) when that's finished.
+At the moment it's targeting OFX 2.0.3. I'll look at later (and earlier
+versions) when that's finished.
+
+## Current state
+
+I'm targeting statement download responses first, since that's my pressing
+concern. Once that's done and I'm happy with the architecture I'll work my way
+through the spec, completing the Banking section first.
 
 ## Installation
 

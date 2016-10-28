@@ -1,3 +1,4 @@
+require "builder"
 require "ofx/data/serialization/registry"
 require "ofx/data/serialization/document"
 require "ofx/data/serialization/message_set"

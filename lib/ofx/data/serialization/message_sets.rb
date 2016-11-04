@@ -1,5 +1,6 @@
 require "ofx/data/serialization/common"
 require "ofx/data/serialization/message_sets/banking"
+require "ofx/data/serialization/message_sets/signon"
 
 module OFX
   module Data

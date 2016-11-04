@@ -3,7 +3,7 @@ require "ofx/data/message_sets"
 module OFX::Data
   RSpec.describe MessageSets do
     let(:b_msg) { MessageSets::Banking::Response.new([]) }
-    let(:s_msg) { MessageSets::Signon::Response.new }
+    let(:s_msg) { MessageSets::Signon::Response.new(double) }
     subject { MessageSets.new([b_msg, s_msg]) }
 
     it "can order a MessageSet list correctly" do

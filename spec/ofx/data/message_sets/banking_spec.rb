@@ -1,7 +1,7 @@
-require "ofx/data/message_set/banking"
+require "ofx/data/message_sets/banking"
 require "ofx/data/banking/statement"
 
-module OFX::Data::MessageSet
+class OFX::Data::MessageSets
   RSpec.describe Banking do
     context "Response" do
       let(:message) { instance_double("OFX::Data::Banking::Statement::Response") }

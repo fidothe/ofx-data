@@ -1,6 +1,6 @@
 module OFX
   module Data
-    module MessageSet
+    class MessageSets
       module Signon
         MESSAGE_SET_TYPE = :signon
 

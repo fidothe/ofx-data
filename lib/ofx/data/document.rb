@@ -6,7 +6,7 @@ module OFX
       attr_reader :message_sets, :declaration
 
       def initialize(opts = {})
-        @message_sets = opts.fetch(:message_sets, []).freeze
+        @message_sets = opts.fetch(:message_sets)
         @declaration = opts.fetch(:declaration, Declaration.default)
       end
 

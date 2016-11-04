@@ -4,6 +4,12 @@ module OFX
   module Data
     module Serialization
       class Registry
+        def self.build(&block)
+          registry = new
+          block.call(registry)
+          registry
+        end
+
         attr_reader :entries
 
         def initialize
@@ -31,32 +37,6 @@ module OFX
           message << " with context name #{context_name.inspect}" if context_name
           new(message)
         end
-      end
-
-      class OldRegistry
-        def initialize
-          @registry = {}
-        end
-
-        def register(serialization_class, ofx_type)
-          @registry[ofx_type] = serialization_class
-        end
-
-        def serializer_for(data_instance)
-          @registry.fetch(data_instance.ofx_type)
-        end
-
-        def registered_for(serialization_class)
-          @registry.find(->() { [] }) { |ofx_type, klass| klass == serialization_class }.first
-        end
-      end
-
-      def self.registry
-        @registry ||= OFX::Data::Serialization::OldRegistry.new
-      end
-
-      def self.register(*args)
-        registry.register(*args)
       end
     end
   end

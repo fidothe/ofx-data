@@ -39,20 +39,13 @@ module OFX::Data::Serialization
 
       expect(subject.serializer_for(:document)).to be(serializer)
     end
-  end
 
-  RSpec.describe OldRegistry do
-    it "can return the serialization class for a registered data class" do
-      s_class = Class.new
-      d_class = Class.new {
-        def ofx_type
-          :example
-        end
+    it "has a convenience instance building method" do
+      registry = Registry.build { |r|
+        r.register(entry)
       }
 
-      subject.register(s_class, :example)
-
-      expect(subject.serializer_for(d_class.new)).to be(s_class)
+      expect(registry.serializer_for(:document)).to be(serializer)
     end
   end
 end

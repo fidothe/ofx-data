@@ -1,4 +1,3 @@
-require "ofx/data/serialization"
 require "ofx/data/serialization/common"
 
 module OFX
@@ -7,9 +6,13 @@ module OFX
       module Banking
         module Statement
           class Response
-            extend Serialization::Common
+            include Serialization::Common
 
-            def self.serialize(response, builder)
+            def default_registry_entry_args
+              [:"banking.statement.response", nil]
+            end
+
+            def serialize(response, builder)
               builder.STMTRS do |builder|
                 builder.CURDEF response.curdef.to_s.upcase
                 builder.BANKACCTFROM do |builder|
@@ -31,8 +34,6 @@ module OFX
           end
         end
       end
-
-      register Banking::Statement::Response, :"banking.statement.response"
     end
   end
 end

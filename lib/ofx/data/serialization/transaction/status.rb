@@ -6,9 +6,13 @@ module OFX
     module Serialization
       module Transaction
         class Status
-          extend Serialization::Common
+          include Serialization::Common
 
-          def self.serialize(status, builder)
+          def default_registry_entry_args
+            [:"transaction.status", nil]
+          end
+
+          def serialize(status, builder)
             builder.STATUS do |builder|
               builder.CODE status.code
               builder.SEVERITY status.severity.to_s.upcase
@@ -19,8 +23,6 @@ module OFX
           end
         end
       end
-
-      register Transaction::Status, :"transaction.status"
     end
   end
 end

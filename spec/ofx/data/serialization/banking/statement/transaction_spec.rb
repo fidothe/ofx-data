@@ -1,44 +1,46 @@
+require "ofx/data/serialization/shared_examples"
 require "ofx/data/serialization/banking/statement/transaction"
 require "ofx/data/banking/statement/transaction"
+require "ofx/data/banking/statement/response"
 require "ofx/data/transaction/status"
 require "builder"
 
-module OFX::Data::Serialization::Banking::Statement
-  RSpec.describe Transaction do
+module OFX::Data::Serialization::Banking::Statement::Transaction
+  RSpec.describe "Transaction" do
     let(:builder) { Builder::XmlMarkup.new }
 
-    context "Response" do
-      let(:status) { double() }
-      let(:response) { double() }
-      let(:transaction_data) {
-        instance_double("OFX::Data::Banking::Transaction::Response", {
-          trnuid: "123", status: status, response: response
-        })
-      }
+    describe Response do
+      it_should_behave_like "a basic serializer", [:"banking.statement.transaction.response", nil], :"banking.statement.transaction.response", nil
 
-      it "orders the status / response correctly" do
-        expect(Transaction::Response.children(transaction_data))
-          .to eq([status, response])
-      end
+      context "serialization", :serializer do
+        let(:status) { OFX::Data::Transaction::Status.new({
+          code: 200, severity: :info
+        }) }
+        let(:response) {
+          instance_double(OFX::Data::Banking::Statement::Response, {
+            ofx_type: :"banking.statement.response"
+          })
+        }
+        let(:transaction_data) {
+          instance_double("OFX::Data::Banking::Transaction::Response", {
+            trnuid: "123", status: status, response: response
+          })
+        }
 
-      it "hands on to its children properly" do
-        expect(Transaction::Response).to receive(:serialize_collection)
-          .with([status, response], builder)
+        subject { Response.new(test_registry) }
 
-        Transaction::Response.serialize(transaction_data, builder)
-      end
+        it "hands on to its children properly" do
+          expect(subject).to receive(:serialize_collection)
+            .with([status, response], builder)
 
-      it "registers itself for the :banking.transaction.response ofx type" do
-        expect(OFX::Data::Serialization.registry.registered_for(Transaction::Response))
-          .to eq(:"banking.statement.transaction.response")
-      end
+          subject.serialize(transaction_data, builder)
+        end
 
-      it "generates a sensible XML response" do
-        allow(Transaction::Response).to receive(:children) { [] }
+        it "generates a sensible XML response" do
+          subject.serialize(transaction_data, builder)
 
-        Transaction::Response.serialize(transaction_data, builder)
-
-        expect(builder.target!).to eq("<STMTTRNRS><TRNUID>123</TRNUID></STMTTRNRS>")
+          expect(builder.target!).to eq("<STMTTRNRS><TRNUID>123</TRNUID><null>transaction.status</null><null>banking.statement.response</null></STMTTRNRS>")
+        end
       end
     end
   end

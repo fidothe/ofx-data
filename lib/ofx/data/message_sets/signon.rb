@@ -1,8 +1,8 @@
 module OFX
   module Data
-    module MessageSet
-      module Banking
-        MESSAGE_SET_TYPE = :banking
+    class MessageSets
+      module Signon
+        MESSAGE_SET_TYPE = :signon
 
         class Request
           def message_set_type
@@ -11,10 +11,10 @@ module OFX
         end
 
         class Response
-          attr_reader :messages
+          attr_reader :message
 
-          def initialize(messages)
-            @messages = messages
+          def initialize(message)
+            @message = message
           end
 
           def message_set_type
@@ -22,7 +22,7 @@ module OFX
           end
 
           def ofx_type
-            :"message_sets.banking.response"
+            :"message_sets.signon.response"
           end
         end
       end

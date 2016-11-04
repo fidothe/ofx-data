@@ -1,4 +1,3 @@
-require "ofx/data/serialization"
 require "ofx/data/serialization/common"
 
 module OFX
@@ -6,7 +5,6 @@ module OFX
     module Serialization
       module Banking
         class BankAccount
-          extend Serialization::Common
           ACCT_TYPES = {
             checking: "CHECKING".freeze,
             savings: "SAVINGS".freeze,
@@ -14,7 +12,13 @@ module OFX
             credit_line: "CREDITLINE"
           }
 
-          def self.serialize(bank_account, builder)
+          include Serialization::Common
+
+          def default_registry_entry_args
+            [:"banking.bank_account", nil]
+          end
+
+          def serialize(bank_account, builder)
             builder.BANKID bank_account.bank_id
             if bank_account.branch_id != ""
               builder.BRANCHID bank_account.branch_id
@@ -26,13 +30,11 @@ module OFX
             end
           end
 
-          def self.acct_type(type)
+          def acct_type(type)
             ACCT_TYPES.fetch(type)
           end
         end
       end
-
-      register Banking::BankAccount, :"banking.bank_account"
     end
   end
 end

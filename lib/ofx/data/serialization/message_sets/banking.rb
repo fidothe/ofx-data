@@ -4,15 +4,19 @@ require "ofx/data/serialization/common"
 module OFX
   module Data
     module Serialization
-      module MessageSet
+      class MessageSets
         module Banking
           class Request
           end
 
           class Response
-            extend Serialization::Common
+            include Serialization::Common
 
-            def self.serialize(message_set, builder)
+            def default_registry_entry_args
+              [:"message_sets.banking.response", nil]
+            end
+
+            def serialize(message_set, builder)
               builder.BANKMSGSRSV1 do |builder|
                 serialize_collection(message_set.messages, builder)
               end
@@ -20,8 +24,6 @@ module OFX
           end
         end
       end
-
-      register MessageSet::Banking::Response, :"message_sets.banking.response"
     end
   end
 end

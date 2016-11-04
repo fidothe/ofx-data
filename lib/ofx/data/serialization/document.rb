@@ -5,9 +5,28 @@ module OFX
   module Data
     module Serialization
       class Document
-        extend Common
+        include Common
 
-        def self.serialize(document, builder)
+        def self.register_with(registry)
+          serializer = new(registry)
+          registry.register(serializer.registry_entry)
+        end
+
+        attr_reader :registry
+
+        def initialize(registry)
+          @registry = registry
+        end
+
+        def default_registry_entry_args
+          [:document, nil]
+        end
+
+        def registry_entry
+          Registry::Entry.new(self, *default_registry_entry_args)
+        end
+
+        def serialize(document, builder)
           decl = document.declaration
           builder.instruct!
           builder.instruct!(:OFX, {
@@ -18,12 +37,10 @@ module OFX
             NEWFILEUID: decl.newfileuid
           })
           builder.OFX do |builder|
-            MessageSet.serialize(document.message_sets, builder)
+            serialize_object(document.message_sets, builder)
           end
         end
       end
-
-      register(Document, :document)
     end
   end
 end

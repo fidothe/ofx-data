@@ -1,4 +1,3 @@
-require "ofx/data/serialization"
 require "ofx/data/serialization/common"
 
 module OFX
@@ -6,16 +5,18 @@ module OFX
     module Serialization
       module Banking
         class Balance
-          extend Serialization::Common
+          include Serialization::Common
 
-          def self.serialize(balance, builder)
+          def default_registry_entry_args
+            [:"banking.balance", nil]
+          end
+
+          def serialize(balance, builder)
             builder.BALAMT balance.amount.to_s("F")
             builder.DTASOF balance.date.strftime("%Y%m%d%H%M%S")
           end
         end
       end
-
-      register Banking::Balance, :"banking.balance"
     end
   end
 end

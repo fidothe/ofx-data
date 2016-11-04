@@ -1,4 +1,3 @@
-require "ofx/data/serialization"
 require "ofx/data/serialization/common"
 
 module OFX
@@ -6,9 +5,14 @@ module OFX
     module Serialization
       module Banking
         class Transaction
-          extend Serialization::Common
+          include Serialization::Common
 
-          def self.serialize(transaction, builder)
+          def default_registry_entry_args
+            [:"banking.statement_transaction", nil]
+          end
+
+
+          def serialize(transaction, builder)
             builder.STMTTRN do |builder|
               builder.TRNTYPE transaction.type.to_s.upcase
               builder.DTPOSTED transaction.date_posted.strftime("%Y%m%d%H%M%S")
@@ -21,8 +25,6 @@ module OFX
           end
         end
       end
-
-      register Banking::Transaction, :"banking.statement_transaction"
     end
   end
 end

@@ -12,7 +12,7 @@ module OFX
           MessageSets::Signon::Response, Signon::Response,
           Banking::Balance, Banking::BankAccount,
           Banking::Transaction, Banking::Statement::Response,
-          Banking::Statement::Transaction
+          Banking::Statement::Transaction::Response
         ]
 
         def self.registry

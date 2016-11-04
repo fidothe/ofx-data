@@ -8,7 +8,8 @@ module OFX
       module OFX203
         SERIALIZER_CLASSES = [
           Document, Transaction::Status,
-          MessageSets, MessageSets::Banking,
+          MessageSets, MessageSets::Banking::Response,
+          MessageSets::Signon::Response, Signon::Response,
           Banking::Balance, Banking::BankAccount,
           Banking::Transaction, Banking::Statement::Response,
           Banking::Statement::Transaction

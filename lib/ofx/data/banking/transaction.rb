@@ -37,6 +37,7 @@ module OFX
           @payee_id = opts.fetch(:payee_id, nil)
           raise ArgumentError, ":payee_id must be 1-12 characters long" if @payee_id && @payee_id.length > 12
           @memo = opts.fetch(:memo, nil)
+          raise ArgumentError, ":memo must be 1-255 characters long" if @memo && @memo.length > 255
         end
 
         def ofx_type

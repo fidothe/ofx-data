@@ -5,9 +5,9 @@ require "ofx/data/serialization"
 module OFX
   module Data
     module Serialization
-      module OFX203
+      module OFX102
         SERIALIZER_CLASSES = [
-          Document::XML, Transaction::Status,
+          Document::SGML, Transaction::Status,
           MessageSets, MessageSets::Banking::Response,
           MessageSets::Signon::Response, Signon::Response,
           Banking::Balance, Banking::BankAccount,

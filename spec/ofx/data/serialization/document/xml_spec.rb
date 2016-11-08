@@ -4,8 +4,8 @@ require "ofx/data/document"
 require "ofx/data/message_sets"
 require "builder"
 
-module OFX::Data::Serialization
-  RSpec.describe Document do
+module OFX::Data::Serialization::Document
+  RSpec.describe XML do
     it_should_behave_like "a basic serializer", [:document, nil], :document, nil
 
     context "serialization", :serializer do
@@ -13,7 +13,7 @@ module OFX::Data::Serialization
       let(:document) { OFX::Data::Document.new(message_sets: message_sets) }
       let(:builder) { Builder::XmlMarkup.new }
 
-      subject { Document.new(test_registry) }
+      subject { XML.new(test_registry) }
 
       it "generates well-formed XML for an empty document" do
         subject.serialize(document, builder)

@@ -117,6 +117,12 @@ module OFX::Data::Banking
         transaction = Transaction.new(base_opts.merge(memo: "Blah"))
         expect(transaction.memo).to eq("Blah")
       end
+
+      it "rejects a value that's too long" do
+        expect {
+          Transaction.new(base_opts.merge(memo: "A"*256))
+        }.to raise_error(ArgumentError)
+      end
     end
 
     describe "generating a Transaction with a synthetic fitid" do

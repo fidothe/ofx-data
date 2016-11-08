@@ -12,15 +12,16 @@ module OFX::Data::Serialization::Banking
       let(:builder) { Builder::XmlMarkup.new }
       let(:transaction) {
         OFX::Data::Banking::Transaction.new({
-          type: :debit, amount: "100", fitid: "unique",
-          date_posted: DateTime.parse("2016-10-02T12:00:00Z"), name: "ohai"
+          type: :debit, amount: "100", fitid: "unique", name: "ohai",
+          memo: "for things",
+          date_posted: DateTime.parse("2016-10-02T12:00:00Z")
         })
       }
 
       subject { Transaction.new(registry) }
 
       it "generates sensible XML" do
-        expected = "<STMTTRN><TRNTYPE>DEBIT</TRNTYPE><DTPOSTED>20161002120000</DTPOSTED><TRNAMT>100.0</TRNAMT><FITID>unique</FITID><NAME>ohai</NAME></STMTTRN>"
+        expected = "<STMTTRN><TRNTYPE>DEBIT</TRNTYPE><DTPOSTED>20161002120000</DTPOSTED><TRNAMT>100.0</TRNAMT><FITID>unique</FITID><NAME>ohai</NAME><MEMO>for things</MEMO></STMTTRN>"
         subject.serialize(transaction, builder)
         xml = builder.target!
 

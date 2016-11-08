@@ -21,6 +21,9 @@ module OFX
               if transaction.name
                 builder.NAME transaction.name
               end
+              if transaction.memo
+                builder.MEMO transaction.memo
+              end
             end
           end
         end
